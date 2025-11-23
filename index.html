@@ -180,6 +180,7 @@
 
             .dedication {
                 font-size: 1.4rem;
+                flex-direction: column;
             }
 
             .caption {
@@ -195,7 +196,7 @@
             <img src="pfp.jpg" alt="Profile" class="pfp">
             <span>✨ For: Rhynea</span>
         </div>
-        <div class="caption">On 7 January 2009, Hubble captured this cosmic view.</div>
+        <div class="caption">On January 7th, Hubble captured this cosmic view.</div>
         
         <div id="content">
             <div class="loading">
@@ -206,9 +207,10 @@
     </div>
 
     <script>
+        // Birthday: January 7, 2009
         const targetDate = '2009-01-07';
         
-        async function fetchHubbleImage() {
+        async function fetchAPODImage() {
             const contentDiv = document.getElementById('content');
             
             try {
@@ -255,7 +257,7 @@
         }
         
         // Fetch the image when the page loads
-        fetchHubbleImage();
+        fetchAPODImage();
     </script>
 </body>
 </html>
