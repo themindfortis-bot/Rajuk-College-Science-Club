@@ -1,1 +1,1 @@
-# hubble-birthday
+# Rajuk College Science Club
