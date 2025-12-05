@@ -29,7 +29,8 @@
     }
 
     body {
-      background-color: var(--bg-dark);
+      /* Made body background transparent so the fixed canvas behind it is fully visible */
+      background-color: transparent;
       color: #e0e0e0;
       overflow-x: hidden;
       overscroll-behavior: none;
@@ -43,6 +44,7 @@
       width: 100%;
       height: 100%;
       z-index: -1;
+      /* The background color acts as the base layer */
       background: radial-gradient(circle at bottom, #1b2735 0%, #050510 100%);
       will-change: transform;
     }
@@ -1245,26 +1247,25 @@
         c.draw();
       });
 
-      // 6. DRAW TELESCOPE (Smaller, Left-Aligned, Subtle Wiggle)
+      // 6. DRAW TELESCOPE (FIXED POSITION - NO SCROLL SUBTRACTION)
       if (telescopeSprite) {
-        // Reduced size: Divisor changed from 1.5 to 2.2
+        // Reduced size: Divisor 2.2
         const tWidth = telescopeSprite.width / (window.devicePixelRatio > 1 ? 2 : 1) / 2.2;
         const tHeight = telescopeSprite.height / (window.devicePixelRatio > 1 ? 2 : 1) / 2.2;
 
-        // Moved Left: Reduced x-offset
+        // Moved Left
         const tx = isMobile ? -10 : 20;
 
         const baseTy = height - tHeight + 10;
 
-        // Reduced Wiggle: Slower speed (1500) and smaller amplitude (4)
+        // Reduced Wiggle
         const wiggle = Math.sin(Date.now() / 1500) * 4;
 
-        const currentScroll = window.scrollY;
-        const ty = baseTy - currentScroll + wiggle;
+        // ty is now fixed to the viewport height (baseTy) + animation.
+        // We do NOT subtract window.scrollY anymore.
+        const ty = baseTy + wiggle;
 
-        if (ty + tHeight > 0) {
-          ctx.drawImage(telescopeSprite, 0, 0, telescopeSprite.width, telescopeSprite.height, tx, ty, tWidth, tHeight);
-        }
+        ctx.drawImage(telescopeSprite, 0, 0, telescopeSprite.width, telescopeSprite.height, tx, ty, tWidth, tHeight);
       }
 
       requestAnimationFrame(animate);
