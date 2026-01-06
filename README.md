@@ -1,1 +1,0 @@
-# Rajuk College Science Club
