@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Happy Birthday Rhynea!</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600;700&family=Orbitron:wght@600&display=swap"
+    rel="stylesheet">
+  <style>
+    /* --- OPTIMIZED RESET --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: #08031a;
+      /* Deep Space */
+      color: #fff;
+      font-family: 'Quicksand', sans-serif;
+      overflow-x: hidden;
+      width: 100vw;
+    }
+
+    /* --- CANVAS --- */
+    #canvas-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* --- HEART ANIMATION CONTAINER --- */
+    #hearts-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* --- LAYOUT --- */
+    section {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    /* --- GLASS CARD --- */
+    .glass-panel {
+      background: rgba(20, 10, 40, 0.6);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      padding: 2rem 1.5rem;
+      border-radius: 25px;
+      border: 1px solid rgba(216, 180, 254, 0.2);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 2rem;
+      animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    /* --- TYPOGRAPHY --- */
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: #fff;
+      text-shadow: 0 0 10px #d8b4fe;
+    }
+
+    h2 {
+      font-family: 'Orbitron', sans-serif;
+      margin-bottom: 1.5rem;
+      color: #d8b4fe;
+      font-size: 1.5rem;
+    }
+
+    .cute-subtitle {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.2rem;
+      color: #c084fc;
+      margin-bottom: 1.5rem;
+    }
+
+    /* --- BUTTONS --- */
+    .celebrate-btn {
+      background: linear-gradient(135deg, #a855f7, #ec4899);
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      font-size: 1.2rem;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      border-radius: 50px;
+      box-shadow: 0 5px 15px rgba(236, 72, 153, 0.4);
+      transition: transform 0.1s;
+    }
+
+    .celebrate-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* --- QUIZ STYLES (NEW) --- */
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      text-align: left;
+    }
+
+    .quiz-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(216, 180, 254, 0.3);
+      padding: 15px;
+      border-radius: 15px;
+      color: #fff;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+    }
+
+    .quiz-btn:active {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(0.98);
+    }
+
+    .quiz-btn span {
+      margin-right: 12px;
+      font-size: 1.3rem;
+    }
+
+    .quiz-btn.correct {
+      background: linear-gradient(45deg, #9333ea, #10b981);
+      border-color: #10b981;
+      pointer-events: none;
+    }
+
+    .quiz-btn.wrong {
+      background: rgba(239, 68, 68, 0.3);
+      border-color: #ef4444;
+      animation: shake 0.4s;
+    }
+
+    #quiz-result {
+      margin-top: 1.5rem;
+      font-weight: bold;
+      color: #d8b4fe;
+      min-height: 1.5rem;
+    }
+
+    /* --- ESSENTIALS GRID --- */
+    .essentials-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      width: 100%;
+    }
+
+    .essential-card {
+      background: rgba(255, 255, 255, 0.07);
+      padding: 15px;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .emoji-icon {
+      font-size: 3rem;
+      margin-bottom: 5px;
+    }
+
+    .card-title {
+      font-weight: 700;
+      color: #e9d5ff;
+      font-size: 1rem;
+      margin-bottom: 5px;
+    }
+
+    .card-desc {
+      font-size: 0.8rem;
+      opacity: 0.8;
+      line-height: 1.3;
+    }
+
+    /* --- TIMELINE --- */
+    .timeline {
+      text-align: left;
+      padding-left: 15px;
+      border-left: 3px solid #a855f7;
+      margin-top: 1rem;
+      margin-left: 10px;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2rem;
+      padding-left: 20px;
+    }
+
+    .timeline-item::before {
+      content: '💜';
+      position: absolute;
+      left: -26px;
+      top: 0;
+      font-size: 1.2rem;
+      background: #08031a;
+    }
+
+    .t-date {
+      color: #d8b4fe;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    /* --- ANIMATIONS --- */
+    @keyframes popIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes shake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      25% {
+        transform: translateX(-5px);
+      }
+
+      75% {
+        transform: translateX(5px);
+      }
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .floating-heart {
+      position: absolute;
+      color: #ec4899;
+      font-size: 1.5rem;
+      animation: floatUp 4s linear forwards;
+      pointer-events: none;
+    }
+
+    .cute-saturn {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      display: inline-block;
+      filter: drop-shadow(0 0 10px rgba(167, 139, 250, 0.6));
+      animation: bounce 3s infinite ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+
+  <canvas id="canvas-container"></canvas>
+  <div id="hearts-container"></div>
+
+  <section onclick="spawnEffects(event)">
+    <div class="glass-panel">
+      <div class="cute-saturn">🪐</div>
+      <h1>Happy 17th!</h1>
+      <div class="cute-subtitle">Dearest Rhynea</div>
+      <p style="font-size: 0.95rem; margin-bottom: 2rem; line-height: 1.6;">
+        Welcome to your own little corner of the galaxy.
+        <br><span style="opacity: 0.7; font-size: 0.8rem;">(Tap anywhere for magic!)</span>
+      </p>
+      <button class="celebrate-btn" onclick="spawnEffects(event)">Make a Wish ✨</button>
+    </div>
+  </section>
+
+  <section onclick="spawnEffects(event)">
+    <div class="glass-panel">
+      <h2>Mini Quiz: Us Edition</h2>
+      <p style="margin-bottom: 1.5rem; font-size: 0.9rem; opacity: 0.9;">Guess my favorite memory with you...</p>
+      <div class="quiz-options">
+        <button class="quiz-btn" onclick="checkAnswer(event, this, false)"><span>💌</span> When you first told
+          me.</button>
+        <button class="quiz-btn" onclick="checkAnswer(event, this, false)"><span>📝</span> The handwritten
+          note.</button>
+        <button class="quiz-btn" onclick="checkAnswer(event, this, false)"><span>💧</span> The water bottle
+          moment.</button>
+        <button class="quiz-btn" onclick="checkAnswer(event, this, true)"><span>✨</span> Every single moment.</button>
+      </div>
+      <div id="quiz-result"></div>
+    </div>
+  </section>
+
+  <section onclick="spawnEffects(event)">
+    <div class="glass-panel">
+      <h2>Rhynea's Essentials</h2>
+      <div class="essentials-grid">
+        <div class="essential-card">
+          <div class="emoji-icon">💜</div>
+          <div class="card-title">Purple</div>
+          <div class="card-desc">The only color that matches your vibe.</div>
+        </div>
+        <div class="essential-card">
+          <div class="emoji-icon">🧃</div>
+          <div class="card-title">Choco Melk</div>
+          <div class="card-desc">Fuel for the soul (Must be cold!).</div>
+        </div>
+        <div class="essential-card">
+          <div class="emoji-icon">🍟</div>
+          <div class="card-title">Fries</div>
+          <div class="card-desc">Salty, crispy, and yours.</div>
+        </div>
+        <div class="essential-card">
+          <div class="emoji-icon">🍗</div>
+          <div class="card-title">Nuggets</div>
+          <div class="card-desc">The ultimate comfort food combo.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section onclick="spawnEffects(event)">
+    <div class="glass-panel">
+      <h2 style="font-family:'Dancing Script'; font-size: 2.5rem; margin-bottom: 1.5rem; color:#d8b4fe;">Our Galaxy</h2>
+      <div class="timeline">
+        <div class="timeline-item"><span class="t-date">JAN 07, 2023</span>The day you told me you liked me. The exact
+          moment my universe shifted.</div>
+        <div class="timeline-item"><span class="t-date">THROUGH IT ALL</span>We've faced chaos, distance, and everything
+          in between. But we're still here. Stronger.</div>
+        <div class="timeline-item"><span class="t-date">THE PROMISE</span>"I will leave everything else and run away
+          with you." <br><i style="color:#d8b4fe; font-size: 0.9rem;">(I'm holding onto this forever).</i></div>
+      </div>
+      <div style="margin-top: 2rem; font-size: 1.2rem; font-weight: bold;">I love you.</div>
+    </div>
+  </section>
+
+  <script>
+    // --- PERFORMANCE OPTIMIZED CANVAS ---
+    const canvas = document.getElementById('canvas-container');
+    const ctx = canvas.getContext('2d');
+    const heartsContainer = document.getElementById('hearts-container');
+
+    let width, height;
+    let particles = [];
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // --- FIREWORKS ENGINE ---
+    class Particle {
+      constructor(x, y) {
+        this.x = x; this.y = y;
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 3 + 1;
+        this.vx = Math.cos(angle) * speed;
+        this.vy = Math.sin(angle) * speed;
+        this.life = 1;
+        this.decay = Math.random() * 0.02 + 0.01;
+        this.color = `hsl(${Math.random() * 60 + 260}, 100%, 70%)`;
+      }
+      update() { this.x += this.vx; this.y += this.vy; this.life -= this.decay; }
+      draw() {
+        ctx.globalAlpha = this.life; ctx.fillStyle = this.color;
+        ctx.beginPath(); ctx.arc(this.x, this.y, 2, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+
+    // --- FLOATING HEARTS & BALLOONS ---
+    function createFloatingHeart(x, y) {
+      const heart = document.createElement('div');
+      heart.classList.add('floating-heart');
+      // Randomly choose between Purple Heart, Sparkle, or Balloon
+      const choices = ['💜', '✨', '🎈'];
+      const choice = choices[Math.floor(Math.random() * choices.length)];
+      heart.innerHTML = choice;
+
+      // If it's a balloon, we can use CSS filter to make it purple-ish if desired, 
+      // but standard red/orange balloon contrasts nicely with purple background.
+
+      heart.style.left = `${x}px`;
+      heart.style.top = `${y}px`;
+      heart.style.fontSize = `${Math.random() * 1 + 1}rem`;
+      heartsContainer.appendChild(heart);
+
+      setTimeout(() => { heart.remove(); }, 4000);
+    }
+
+    // --- MASTER INTERACTION FUNCTION ---
+    function spawnEffects(e) {
+      // Get coordinates (touch or mouse)
+      let x, y;
+      if (e.clientX) {
+        x = e.clientX; y = e.clientY;
+      } else if (e.touches && e.touches[0]) {
+        x = e.touches[0].clientX; y = e.touches[0].clientY;
+      } else {
+        x = width / 2; y = height / 2; // Fallback
+      }
+
+      // 1. Launch Fireworks (Canvas)
+      for (let i = 0; i < 20; i++) {
+        particles.push(new Particle(x, y));
+      }
+
+      // 2. Launch Floating Hearts (DOM)
+      createFloatingHeart(x, y);
+      createFloatingHeart(x + (Math.random() * 40 - 20), y + (Math.random() * 40 - 20));
+    }
+
+    // --- QUIZ LOGIC (Mobile Optimized) ---
+    function checkAnswer(e, btn, isCorrect) {
+      e.stopPropagation(); // Prevents clicking the answer from triggering a generic background explosion instantly
+      const resultDiv = document.getElementById('quiz-result');
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+        resultDiv.innerHTML = "Correct! It's always you. 💜";
+
+        // Massive Celebration specific to winning
+        for (let i = 0; i < 5; i++) {
+          setTimeout(() => {
+            // Manually trigger spawnEffects at random spots
+            spawnEffects({ clientX: Math.random() * width, clientY: Math.random() * height });
+          }, i * 200);
+        }
+
+        // Disable other buttons to show the quiz is done
+        const allBtns = document.querySelectorAll('.quiz-btn');
+        allBtns.forEach(b => {
+          if (b !== btn) {
+            b.style.opacity = '0.5';
+            b.disabled = true;
+          }
+        });
+      } else {
+        btn.classList.add('wrong');
+        resultDiv.innerHTML = "Try again! (Hint: It's all of them) 😉";
+        setTimeout(() => { btn.classList.remove('wrong'); }, 500);
+      }
+    }
+
+    // --- ANIMATION LOOP ---
+    function loop() {
+      ctx.clearRect(0, 0, width, height);
+
+      // Random faint glitter stars
+      if (Math.random() > 0.85) {
+        ctx.fillStyle = `rgba(255, 255, 255, ${Math.random()})`;
+        ctx.fillRect(Math.random() * width, Math.random() * height, 2, 2);
+      }
+
+      for (let i = particles.length - 1; i >= 0; i--) {
+        let p = particles[i];
+        p.update();
+        p.draw();
+        if (p.life <= 0) particles.splice(i, 1);
+      }
+      requestAnimationFrame(loop);
+    }
+    loop();
+
+    // Auto-trigger on load for effect
+    setTimeout(() => {
+      spawnEffects({ clientX: width / 2, clientY: height / 2 });
+    }, 500);
+
+  </script>
+</body>
+
+</html>
